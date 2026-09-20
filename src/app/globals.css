@@ -1,26 +1,861 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   DevLeveler — Design System
+   Inspired by: GitHub, Linear, Stripe, Vercel, Notion
+   Dark mode first. Professional. Enterprise-ready.
+   ============================================================ */
+
+/* --- CSS Custom Properties --- */
+/* --- CSS Custom Properties (Stitch Precision Intelligence) --- */
+:root, .theme-default {
+  /* Canvas Base & Backgrounds */
+  --background: #faf9ff;
+  --background-secondary: #f1f3ff;
+  --background-tertiary: #ebedfb;
+  --surface: #ffffff;
+  --surface-hover: #f1f3ff;
+  --surface-active: #e5e8f5;
+
+  /* Surfaces Elevation Spectrum */
+  --surface-dim: #d7d9e7;
+  --surface-bright: #faf9ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f1f3ff;
+  --surface-container: #ebedfb;
+  --surface-container-high: #e5e8f5;
+  --surface-container-highest: #dfe2ef;
+  --surface-variant: #dfe2ef;
+
+  /* Foreground & Typography */
+  --foreground: #181b25;
+  --foreground-secondary: #434655;
+  --foreground-tertiary: #64748b;
+  --foreground-muted: #737686;
+  --on-surface: #181b25;
+  --on-surface-variant: #434655;
+
+  /* Borders & Outlines */
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-active: #94a3b8;
+  --outline: #737686;
+  --outline-variant: #c3c6d7;
+
+  /* Stitch Primary (Electric Blue) */
+  --primary: #004ac6;
+  --primary-container: #2563eb;
+  --on-primary: #ffffff;
+  --on-primary-container: #eeefff;
+  --primary-fixed: #dbe1ff;
+  --primary-fixed-dim: #b4c5ff;
+  --on-primary-fixed: #00174b;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-muted: rgba(37, 99, 235, 0.08);
+  --accent-foreground: #ffffff;
+
+  /* Stitch Secondary (Indigo Core) */
+  --secondary: #4b41e1;
+  --secondary-container: #645efb;
+  --secondary-fixed: #e2dfff;
+  --secondary-fixed-dim: #c3c0ff;
+  --on-secondary: #ffffff;
+  --on-secondary-fixed: #0f0069;
+  --on-secondary-container: #fffbff;
+
+  /* Stitch Tertiary / AI Synthesis (Teal / Cyan) */
+  --tertiary: #005d73;
+  --tertiary-container: #007793;
+  --tertiary-fixed: #b7eaff;
+  --tertiary-fixed-dim: #6cd3f7;
+  --on-tertiary: #ffffff;
+  --on-tertiary-fixed: #001f28;
+  --on-tertiary-fixed-variant: #004e61;
+  --accent-secondary: #0891b2;
+  --accent-secondary-muted: rgba(8, 145, 178, 0.08);
+
+  /* Status Colors */
+  --success: #059669;
+  --success-muted: #ecfdf5;
+  --warning: #d97706;
+  --warning-muted: #fffbeb;
+  --error: #ba1a1a;
+  --error-muted: #ffdad6;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  --info: #2563eb;
+  --info-muted: #eff6ff;
+
+  /* Sidebar */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --sidebar-item-hover: #f1f3ff;
+  --sidebar-item-active: #2563eb;
+
+  /* Card */
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --card-border: #e2e8f0;
+
+  /* Chart Colors */
+  --chart-1: #2563eb;
+  --chart-2: #0891b2;
+  --chart-3: #4b41e1;
+  --chart-4: #059669;
+  --chart-5: #d97706;
+  --chart-6: #ba1a1a;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(226, 232, 240, 0.8);
+  --shadow: 0 2px 4px -1px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.8);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.8);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.8);
 }
 
+/* --- Tailwind v4 Theme Tokens --- */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+  --color-on-secondary: var(--on-secondary);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
+  --color-error: var(--error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+  --color-muted: var(--foreground-muted);
+  --color-muted-foreground: var(--foreground-tertiary);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-border: var(--sidebar-border);
+  --font-sans: "Inter", "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* --- Base Styles --- */
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.6;
 }
+
+/* --- Selection --- */
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* --- Scrollbar (WebKit) --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground-muted);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-tertiary);
+}
+
+/* --- Focus Styles --- */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Score Ring Animation --- */
+@keyframes score-fill {
+  from {
+    stroke-dashoffset: var(--circumference, 283);
+  }
+  to {
+    stroke-dashoffset: var(--target-offset, 0);
+  }
+}
+
+.score-ring-animated {
+  animation: score-fill 1.5s ease-out forwards;
+}
+
+/* --- Pulse Glow for metrics --- */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* --- Gradient Text --- */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, var(--foreground-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Card Styles (Stitch Precision Intelligence) --- */
+.card-base {
+  background-color: var(--surface-container-lowest);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(226, 232, 240, 0.8);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-base:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(148, 163, 184, 0.4);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(37, 99, 235, 0.3);
+}
+
+/* AI Signal & Generator Surface */
+.ai-signal-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: 0 4px 20px -2px rgba(6, 182, 212, 0.08), 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Grid Background Pattern --- */
+.grid-pattern {
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* --- Dot Pattern --- */
+.dot-pattern {
+  background-image: radial-gradient(var(--foreground-muted) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+}
+
+/* --- Skeleton Loader --- */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-hover) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius);
+}
+
+/* --- Number Counter --- */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-count {
+  animation: count-up 0.5s ease-out forwards;
+}
+
+/* --- Sidebar transition --- */
+.sidebar-transition {
+  transition: width 0.2s ease, padding 0.2s ease;
+}
+
+/* --- Chart tooltip override --- */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-default-tooltip {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--foreground) !important;
+  font-weight: 500 !important;
+}
+
+.recharts-tooltip-item {
+  color: var(--foreground-secondary) !important;
+}
+
+/* --- Responsive Utilities --- */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none;
+  }
+}
+
+/* ============================================================
+   DevLeveler — Theme System Presets & Colors
+   ============================================================ */
+
+/* Smooth Theme Transitions — only on elements that change during theme switches */
+body, .card-base, header, aside {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* 1. Default theme is defined in :root, .theme-default */
+
+
+/* 2. AMOLED Black */
+.theme-amoled {
+  --background: #000000;
+  --background-secondary: #080808;
+  --background-tertiary: #101010;
+  --surface: #141416;
+  --surface-hover: #1c1c1f;
+  --surface-active: #252529;
+  --border: #141414;
+  --border-hover: #222222;
+  --border-active: #333333;
+  --card: #050505;
+  --card-hover: #0d0d0d;
+  --card-border: #141414;
+  --sidebar-bg: #000000;
+  --sidebar-border: #121212;
+  --shadow-sm: 0 0 0 transparent;
+  --shadow: 0 0 0 transparent;
+}
+
+/* 3. Discord */
+.theme-discord {
+  --background: #313338;
+  --background-secondary: #2b2d31;
+  --background-tertiary: #1e1f22;
+  --surface: #383a40;
+  --surface-hover: #404249;
+  --surface-active: #4e5058;
+  --border: #232428;
+  --border-hover: #1f2023;
+  --card: #2b2d31;
+  --card-hover: #35373c;
+  --card-border: #232428;
+  --sidebar-bg: #1e1f22;
+  --sidebar-border: #232428;
+  --accent: #5865f2;
+  --accent-hover: #4752c4;
+}
+
+/* 4. Cyberpunk */
+.theme-cyberpunk {
+  --background: #0b0714;
+  --background-secondary: #120924;
+  --background-tertiary: #1b0e35;
+  --surface: #241144;
+  --surface-hover: #2d1654;
+  --surface-active: #391c6b;
+  --border: #ff005533;
+  --border-hover: #ff005588;
+  --border-active: #ff0055cc;
+  --card: #120924;
+  --card-hover: #1b0e35;
+  --card-border: #ff005533;
+  --sidebar-bg: #06030c;
+  --sidebar-border: #ff005522;
+  --accent: #fcee0a;
+  --accent-hover: #dfd407;
+  --accent-foreground: #000000;
+  --accent-secondary: #00f0ff;
+  --foreground: #fafafa;
+  --foreground-secondary: #ff0055;
+  --foreground-tertiary: #00f0ff88;
+}
+
+/* 5. Ocean Blue */
+.theme-ocean {
+  --background: #020c1b;
+  --background-secondary: #04162e;
+  --background-tertiary: #062142;
+  --surface: #0a2d59;
+  --surface-hover: #0e3b73;
+  --surface-active: #124b8f;
+  --border: #0c3360;
+  --border-hover: #10437e;
+  --border-active: #15559e;
+  --card: #04162e;
+  --card-hover: #062142;
+  --card-border: #0c3360;
+  --sidebar-bg: #010711;
+  --sidebar-border: #051930;
+  --accent: #0ea5e9;
+  --accent-hover: #38bdf8;
+  --accent-secondary: #06b6d4;
+}
+
+/* 6. Forest Green */
+.theme-forest {
+  --background: #05130f;
+  --background-secondary: #0a201a;
+  --background-tertiary: #103027;
+  --surface: #164034;
+  --surface-hover: #205c4b;
+  --surface-active: #2b7862;
+  --border: #103027;
+  --border-hover: #164034;
+  --border-active: #205c4b;
+  --card: #0a201a;
+  --card-hover: #103027;
+  --card-border: #103027;
+  --sidebar-bg: #020806;
+  --sidebar-border: #071713;
+  --accent: #22c55e;
+  --accent-hover: #4ade80;
+  --accent-secondary: #10b981;
+}
+
+/* 7. Sakura Pink */
+.theme-sakura {
+  --background: #18090f;
+  --background-secondary: #240e16;
+  --background-tertiary: #32131e;
+  --surface: #421828;
+  --surface-hover: #531f33;
+  --surface-active: #66273e;
+  --border: #32131e;
+  --border-hover: #421828;
+  --border-active: #531f33;
+  --card: #240e16;
+  --card-hover: #32131e;
+  --card-border: #32131e;
+  --sidebar-bg: #0f0509;
+  --sidebar-border: #1c0a11;
+  --accent: #ff85a1;
+  --accent-hover: #ffadbf;
+  --accent-secondary: #f43f5e;
+}
+
+/* 8. Lavender Dream */
+.theme-lavender {
+  --background: #0a0614;
+  --background-secondary: #120c24;
+  --background-tertiary: #1b1235;
+  --surface: #251a4a;
+  --surface-hover: #302260;
+  --surface-active: #3e2b7b;
+  --border: #1b1235;
+  --border-hover: #251a4a;
+  --border-active: #302260;
+  --card: #120c24;
+  --card-hover: #1b1235;
+  --card-border: #1b1235;
+  --sidebar-bg: #05030a;
+  --sidebar-border: #0e091c;
+  --accent: #a78bfa;
+  --accent-hover: #c084fc;
+  --accent-secondary: #8b5cf6;
+}
+
+/* 9. Peach Sunset */
+.theme-peach {
+  --background: #140b07;
+  --background-secondary: #20120b;
+  --background-tertiary: #2e1a10;
+  --surface: #3e2316;
+  --surface-hover: #4e2e1d;
+  --surface-active: #613a25;
+  --border: #2e1a10;
+  --border-hover: #3e2316;
+  --border-active: #4e2e1d;
+  --card: #20120b;
+  --card-hover: #2e1a10;
+  --card-border: #2e1a10;
+  --sidebar-bg: #0a0503;
+  --sidebar-border: #150c07;
+  --accent: #f97316;
+  --accent-hover: #fb923c;
+  --accent-secondary: #ea580c;
+}
+
+/* 10. Instagram Inspired */
+.theme-instagram {
+  --background: #0f0a0c;
+  --background-secondary: #171013;
+  --background-tertiary: #21171b;
+  --surface: #2b1f24;
+  --surface-hover: #37282e;
+  --surface-active: #46333b;
+  --border: #21171b;
+  --border-hover: #2b1f24;
+  --border-active: #37282e;
+  --card: #171013;
+  --card-hover: #21171b;
+  --card-border: #21171b;
+  --sidebar-bg: #080506;
+  --sidebar-border: #120d0f;
+  --accent: #e1306c;
+  --accent-hover: #fd1d1d;
+  --accent-secondary: #c13584;
+}
+
+/* 11. Midnight Purple */
+.theme-midnight {
+  --background: #02010a;
+  --background-secondary: #06041c;
+  --background-tertiary: #0c0830;
+  --surface: #130d47;
+  --surface-hover: #1b125f;
+  --surface-active: #23187a;
+  --border: #0c0830;
+  --border-hover: #130d47;
+  --border-active: #1b125f;
+  --card: #06041c;
+  --card-hover: #0c0830;
+  --card-border: #0c0830;
+  --sidebar-bg: #010005;
+  --sidebar-border: #040314;
+  --accent: #a855f7;
+  --accent-hover: #c084fc;
+  --accent-secondary: #7e22ce;
+}
+
+/* ============================================================
+   Futuristic / Premium Redesign Utilities
+   ============================================================ */
+
+/* Text Gradients */
+.glow-text-cyan-purple {
+  background: linear-gradient(135deg, #00f0ff 0%, #a855f7 50%, #ff007f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.15));
+}
+
+.glow-text-emerald-cyan {
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glassmorphism Styles */
+.premium-glass {
+  background: rgba(10, 10, 12, 0.65);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.premium-glass-card {
+  background: linear-gradient(135deg, rgba(20, 20, 25, 0.7) 0%, rgba(10, 10, 12, 0.85) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.premium-glass-card:hover {
+  border-color: rgba(6, 182, 212, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.01);
+}
+
+/* Glowing Accent Borders */
+.glow-border-cyan {
+  position: relative;
+}
+.glow-border-cyan::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #00f0ff, transparent, #a855f7);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+.glow-border-cyan:hover::after {
+  opacity: 1;
+}
+
+/* Keyframes & Animations */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatSlow 6s ease-in-out infinite;
+  animation-delay: 2.5s;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 2px rgba(6, 182, 212, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.8));
+  }
+}
+
+.pulse-glow-cyan {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Grid overlay background effect */
+.grid-mesh-overlay {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+/* Smooth Scrolling customization */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* ============================================================
+   Aurora Background Effect
+   ============================================================ */
+@keyframes aurora-drift {
+  0%, 100% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(5%, -3%) rotate(2deg) scale(1.05);
+  }
+  50% {
+    transform: translate(-3%, 5%) rotate(-1deg) scale(0.95);
+  }
+  75% {
+    transform: translate(-5%, -2%) rotate(1deg) scale(1.02);
+  }
+}
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: aurora-drift 20s ease-in-out infinite;
+}
+
+.aurora-bg::before {
+  width: 600px;
+  height: 600px;
+  top: -20%;
+  left: 10%;
+  background: radial-gradient(circle, #00f0ff, transparent 70%);
+  animation-delay: 0s;
+}
+
+.aurora-bg::after {
+  width: 500px;
+  height: 500px;
+  bottom: -10%;
+  right: 15%;
+  background: radial-gradient(circle, #a855f7, transparent 70%);
+  animation-delay: -10s;
+}
+
+/* ============================================================
+   Floating Orb Animation
+   ============================================================ */
+@keyframes float-orb {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translateY(10px) translateX(-15px);
+    opacity: 0.4;
+  }
+}
+
+.animate-float-orb {
+  animation: float-orb 8s ease-in-out infinite;
+}
+
+/* ============================================================
+   Holographic Shine Effect
+   ============================================================ */
+@keyframes holographic-shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.holographic-shine {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: holographic-shine 4s linear infinite;
+}
+
+/* ============================================================
+   Premium Card Hover Glow
+   ============================================================ */
+.premium-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), transparent 40%, transparent 60%, rgba(168, 85, 247, 0.2));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.premium-card-glow:hover::before {
+  opacity: 1;
+}
+

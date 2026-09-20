@@ -1,0 +1,410 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+// ============================================================
+// Auth.js Models (required by @auth/prisma-adapter)
+// ============================================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================================
+// Core User Model
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  password      String?   // Hashed password for credentials auth
+  bio           String?
+  xp            Int       @default(0)
+  level         Int       @default(1)
+  role          String    @default("DEVELOPER") // "DEVELOPER" | "RECRUITER" | "ADMIN"
+  plan          String    @default("FREE")      // "FREE" | "PRO"
+  isPublic      Boolean   @default(true)
+  registrationOrder Int?
+  isEarlyAdopter    Boolean   @default(false)
+  premiumExpiresAt  DateTime?
+  premiumStartedAt  DateTime?
+
+  // Settings & Customizations
+  careerGoals             Json?    @default("[]") // string[]
+  notificationPreferences  Json?    @default("{\"email\": true, \"reminders\": true, \"weeklySummary\": true}")
+  customSkills            Json?    @default("[]") // string[]
+  connectedAccounts       Json?    @default("{}") // { linkedin: string, twitter: string, github: string }
+  theme                   String   @default("default")
+  themeAccentColor        String?
+  themeTextColor          String?
+  themeHighlightColor     String?
+  avatarSource            String   @default("INITIALS") // "CUSTOM" | "GOOGLE" | "GITHUB" | "INITIALS"
+  customAvatar            String?  @db.Text
+  googleAvatarUrl         String?
+  githubAvatarUrl         String?
+
+  // Relations
+  accounts        Account[]
+  sessions        Session[]
+  githubProfile   GitHubProfile?
+  resumes         Resume[]
+  devScore        DeveloperScore?
+  skillGaps       SkillGap[]
+  roadmaps        Roadmap[]
+  portfolios      PortfolioAnalysis[]
+  interviews      InterviewSession[]
+  xpHistory       XPHistory[]
+  projectAnalyses ProjectAnalysis[]
+  achievements    UserAchievement[]
+  readiness       ReadinessAnalysis?
+  scoreHistory    ScoreHistory[]
+  notifications   Notification[]
+  linkedinAnalysis LinkedInAnalysis?
+  intelligenceReport DeveloperIntelligenceReport?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================
+// GitHub Profile
+// ============================================================
+
+model GitHubProfile {
+  id            String @id @default(cuid())
+  userId        String @unique
+  username      String
+  avatarUrl     String?
+  bio           String?
+  publicRepos   Int    @default(0)
+  followers     Int    @default(0)
+  following     Int    @default(0)
+  totalStars    Int    @default(0)
+  totalForks    Int    @default(0)
+  languages     Json   @default("{}") // { "TypeScript": 45, "Python": 30 }
+  topRepos      Json   @default("[]") // Array of repo objects
+  contributions Json?
+  activityScore Float  @default(0)
+  repoHealth    Float  @default(0)
+  githubScore   Float  @default(0)
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyzedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ============================================================
+// Resume
+// ============================================================
+
+model Resume {
+  id              String @id @default(cuid())
+  userId          String
+  fileName        String
+  fileUrl         String?
+  rawText         String? @db.Text
+  skills          Json   @default("[]")
+  education       Json   @default("[]")
+  experience      Json   @default("[]")
+  projects        Json   @default("[]")
+  certifications  Json   @default("[]")
+  atsScore        Float  @default(0)
+  qualityScore    Float  @default(0)
+  missingKeywords Json   @default("[]")
+  suggestions     Json   @default("[]")
+  summary         String? @db.Text
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyzedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ============================================================
+// Developer Score
+// ============================================================
+
+model DeveloperScore {
+  id              String @id @default(cuid())
+  userId          String @unique
+  overallScore    Float  @default(0)
+  githubScore     Float  @default(0)
+  projectScore    Float  @default(0)
+  skillScore      Float  @default(0)
+  resumeScore     Float  @default(0)
+  deploymentScore Float  @default(0)
+  rank            String @default("Unranked")
+  level           String @default("Beginner")
+  breakdown       Json   @default("{}")
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  calculatedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ============================================================
+// Skill Gap Analysis
+// ============================================================
+
+model SkillGap {
+  id              String @id @default(cuid())
+  userId          String
+  currentSkills   Json   @default("[]")
+  missingSkills   Json   @default("[]")
+  recommendations Json   @default("[]")
+  priority        String @default("medium")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyzedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+}
+
+// ============================================================
+// Learning Roadmap
+// ============================================================
+
+model Roadmap {
+  id           String @id @default(cuid())
+  userId       String
+  title        String
+  weeklyGoals  Json   @default("[]")
+  monthlyGoals Json   @default("[]")
+  projectIdeas Json   @default("[]")
+  techStack    Json   @default("[]")
+  status       String @default("active")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generatedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// Portfolio Analysis
+// ============================================================
+
+model PortfolioAnalysis {
+  id               String @id @default(cuid())
+  userId           String
+  url              String
+  performanceScore Float  @default(0)
+  seoScore         Float  @default(0)
+  mobileScore      Float  @default(0)
+  designScore      Float  @default(0)
+  accessScore      Float  @default(0)
+  recommendations  Json   @default("[]")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyzedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+}
+
+// ============================================================
+// Interview Session
+// ============================================================
+
+model InterviewSession {
+  id         String @id @default(cuid())
+  userId     String
+  type       String // "hr" | "technical" | "project"
+  questions  Json   @default("[]")
+  skillFocus Json   @default("[]")
+  difficulty String @default("intermediate")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generatedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// XP History
+// ============================================================
+
+model XPHistory {
+  id       String @id @default(cuid())
+  userId   String
+  amount   Int
+  reason   String
+  category String // "github" | "resume" | "portfolio" | "project" | "roadmap" | "interview"
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  earnedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+// ============================================================
+// Phase 3 Models
+// ============================================================
+
+model ProjectAnalysis {
+  id                 String   @id @default(cuid())
+  userId             String
+  repoUrl            String
+  overallScore       Float    @default(0)
+  architectureScore  Float    @default(0)
+  documentationScore Float    @default(0)
+  maintainabilityScore Float  @default(0)
+  deploymentScore    Float    @default(0)
+  
+  documentationQuality String?  @db.Text
+  readmeQuality       String?  @db.Text
+  projectStructure    String?  @db.Text
+  folderOrganization  String?  @db.Text
+  scalability         String?  @db.Text
+  maintainability     String?  @db.Text
+  codeComplexity      String?  @db.Text
+  deploymentStatus    String?  @db.Text
+
+  strengths          Json     @default("[]") // string[]
+  weaknesses         Json     @default("[]") // string[]
+  recommendations    Json     @default("[]") // string[]
+  improvementRoadmap Json     @default("[]") // { week: number, title: string, description: string }[]
+  
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyzedAt         DateTime @default(now())
+  createdAt          DateTime @default(now())
+}
+
+model UserAchievement {
+  id              String   @id @default(cuid())
+  userId          String
+  achievementType String   // "first_analysis" | "resume_optimized" | "github_explorer" | "portfolio_builder" | "internship_ready" | "career_architect"
+  title           String
+  description     String
+  icon            String   // Icon key string
+  unlockedAt      DateTime @default(now())
+  
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementType])
+}
+
+model ReadinessAnalysis {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  overallScore        Float    @default(0)
+  entryLevelScore     Float    @default(0)
+  graduateScore       Float    @default(0)
+  fullStackScore      Float    @default(0)
+  frontendScore       Float    @default(0)
+  backendScore        Float    @default(0)
+  strongAreas         Json     @default("[]") // string[]
+  weakAreas           Json     @default("[]") // string[]
+  missingRequirements Json     @default("[]") // string[]
+  recommendations     Json     @default("[]") // string[]
+  priorities          Json     @default("[]") // string[]
+  analyzedAt          DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ScoreHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  overallScore Float
+  githubScore  Float    @default(0)
+  projectScore Float    @default(0)
+  skillScore   Float    @default(0)
+  resumeScore  Float    @default(0)
+  deploymentScore Float  @default(0)
+  recordedAt   DateTime @default(now())
+  
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String   // "ROADMAP" | "SCORE_IMPROVEMENT" | "ACHIEVEMENT" | "PROFILE_UPDATE"
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// LinkedIn Analysis & Developer Intelligence Report Models
+// ============================================================
+
+model LinkedInAnalysis {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  url         String
+  headline    String?
+  summary     String?  @db.Text
+  experience  Json     @default("[]") // details of experience
+  education   Json     @default("[]") // details of education
+  skills      Json     @default("[]") // details of skills
+  analysis    Json?    @default("{}") // parsed Gemini recommendations, strengths, etc.
+  rawText     String?  @db.Text
+  analyzedAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DeveloperIntelligenceReport {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  summary        String   @db.Text
+  readinessScore Float    @default(0)
+  strengths      Json     @default("[]") // string[]
+  weaknesses     Json     @default("[]") // string[]
+  recommendations Json     @default("[]") // string[]
+  careerAlignment Json     @default("[]") // roles match assessment
+  milestones     Json     @default("[]") // milestones tracking
+  skillGapMatrix Json     @default("{}") // unified skills breakdown
+  cachedAt       DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
