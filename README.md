@@ -303,11 +303,11 @@ This project is licensed under the [MIT License](LICENSE).
 **Kartik Shukla**  
 B.Tech Computer Science & Engineering  
 
-[GitHub](https://github.com/kartikshukla2301-eng) · [LinkedIn](https://www.linkedin.com/in/kartik-shukla-cse) · [Portfolio](https://kartik-portfolio-chi-eight.vercel.app) · [Email](mailto:kartikshukla2301@gmail.com)
+[GitHub](https://github.com/Kavita2505-eng) · [LinkedIn](https://www.linkedin.com/in/kavita-kumari-b5b97a367)  · [Email](mailto:kavitasinghrk86gmail.com)
 
 ---
 
 <div align="center">
 Built with Next.js, TypeScript, Prisma and AI.<br />
-© 2026 Kartik Shukla
+© 2026 Kavita Kumari
 </div>
