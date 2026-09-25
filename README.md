@@ -300,7 +300,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**Kartik Shukla**  
+**Kavita Kumari**  
 B.Tech Computer Science & Engineering  
 
 [GitHub](https://github.com/Kavita2505-eng) · [LinkedIn](https://www.linkedin.com/in/kavita-kumari-b5b97a367)  · [Email](mailto:kavitasinghrk86gmail.com)
